@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' media: blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Expect Transcription</title>
+  <link rel="stylesheet" href="partage/foundation.css">
+  <link rel="stylesheet" href="partage/theme.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="brand" href="#/enregistrer" aria-label="Expect Transcription — enregistrer">
+        <img src="partage/assets/expectpatient-mark.svg" alt="" width="28" height="28">
+        <span><strong>Expect Transcription</strong><small>par ExpectPatient</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <a href="#/enregistrer" data-route="enregistrer">Enregistrer</a>
+        <a href="#/fichier" data-route="fichier">Déposer un fichier</a>
+        <a href="#/enregistrements" data-route="enregistrements">Mes enregistrements</a>
+      </nav>
+      <a id="live" class="live" href="#/enregistrer" hidden></a>
+      <a class="header-link" href="#/modeles" data-route="modeles">Transcription</a>
+      <button id="theme-toggle" class="icon-button" type="button" aria-label="Passer en thème sombre"><span aria-hidden="true">◐</span></button>
+    </div>
+  </header>
+  <main id="main" tabindex="-1"><p class="loading">Ouverture…</p></main>
+  <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+  <footer>
+    <span>Vos enregistrements et leur texte restent sur cet ordinateur.</span>
+    <nav class="footer-nav" aria-label="Informations"><a href="#/a-propos/suggestions">Une suggestion ?</a><a href="#/a-propos" data-route="a-propos">Offert par ExpectPatient</a><a href="#/mentions" data-route="mentions">Mentions légales</a></nav>
+  </footer>
+  <div id="drop" class="drop" hidden><p><strong>Déposez le fichier</strong><span>Il sera copié dans Expect Transcription, puis transcrit.</span></p></div>
+  <dialog id="confirm" aria-labelledby="confirm-title">
+    <h2 id="confirm-title"></h2>
+    <p id="confirm-text"></p>
+    <div class="buttons"><button id="confirm-no" class="btn btn-secondary" type="button">Annuler</button><button id="confirm-yes" class="btn btn-danger" type="button"></button></div>
+  </dialog>
+  <dialog id="prompt" aria-labelledby="prompt-title">
+    <form method="dialog">
+      <h2 id="prompt-title"></h2>
+      <label class="field-label" id="prompt-label" for="prompt-input"></label>
+      <input id="prompt-input" maxlength="120" autocomplete="off">
+      <div class="buttons"><button id="prompt-no" class="btn btn-secondary" type="button">Annuler</button><button id="prompt-yes" class="btn btn-primary" type="submit"></button></div>
+    </form>
+  </dialog>
+  <dialog id="conditions" class="conditions" aria-labelledby="conditions-title">
+    <p class="kicker">Avant de commencer</p>
+    <h2 id="conditions-title">Trois choses à savoir.</h2>
+    <ol class="promises">
+      <li><strong>Prévenez les personnes que vous enregistrez.</strong> Enregistrer les paroles de quelqu’un sans son accord, dans un cadre privé ou confidentiel, est puni par la loi. Un cours ou une conférence appartient aussi à celle ou celui qui le donne : ne le diffusez pas sans son accord.</li>
+      <li><strong>Vous êtes responsable de vos enregistrements</strong> et de ce que vous en faites. ExpectPatient fournit l’app gratuitement, sans garantie, et ne voit jamais vos fichiers.</li>
+      <li><strong>Le texte est produit par une machine.</strong> Il contient des erreurs, surtout sur les noms propres : relisez-le avant de vous en servir.</li>
+    </ol>
+    <p class="field-hint">Tout reste sur cet ordinateur : aucun compte, aucun envoi. Le détail est dans les <a href="#/mentions" id="conditions-more">mentions légales</a>.</p>
+    <div class="buttons"><button id="conditions-yes" class="btn btn-primary" type="button" autofocus>J’ai compris, commencer</button></div>
+  </dialog>
+  <div id="context-menu" class="context-menu" role="menu" hidden></div>
+</body>
+</html>

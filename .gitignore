@@ -1,0 +1,11 @@
+# Dépendances et paquets construits
+node_modules/
+dist/
+# Moteur préparé localement depuis ses sources officielles (scripts/preparer-moteur.mjs)
+vendor/mac/bin/
+vendor/win/bin/
+.build/
+# Système
+.DS_Store
+Thumbs.db
+*.log

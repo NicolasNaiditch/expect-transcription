@@ -1,0 +1,14 @@
+/* Jetons de l’assistant de réunion, clairs et sombres : une seule source pour
+   l’app personnelle (importée par app.css) et la version grand public (copiée et vérifiée
+   par edition-grand-public/app/scripts/partager.mjs). Les seuils mesurés restent ceux d’app.css. */
+:root { --x-reunions-success: #15714e; --x-reunions-error: #a32c33; --x-reunions-note: #fff7eb; --x-reunions-note-ink: #80510d;
+  /* Voies du ruban et voix des intervenants : graphiques ≥ 3:1 sur les fonds, numéros ≥ 4,5:1 (mesuré). */
+  --x-reunions-voice: #d4572a; --x-reunions-room: #437fb3;
+  --x-reunions-v1: #307769; --x-reunions-v2: #745d8a; --x-reunions-v3: #8b632c; --x-reunions-v4: #4e6990; --x-reunions-v5: #7e5a6e; --x-reunions-v6: #5d6b5d; --x-reunions-on-voice: #ffffff; }
+:root[data-theme="dark"] { --paper: #111c2c; --paper-bright: #19283c; --surface-tint: #20324a; --ink: #f0f5fb; --muted: #b0bed0; --ep-navy: #90c9f0; --ep-blue: #a2bedb; --brand-primary: var(--ep-navy); --brand-accent: var(--ep-blue); --line: #364c66; --line-strong: #627991; --x-reunions-success: #86d7b3; --x-reunions-error: #ffb3b8; --x-reunions-note: #322c22; --x-reunions-note-ink: #f4cc8d;
+  --x-reunions-voice: #f59a6b; --x-reunions-room: #7fb6e6;
+  --x-reunions-v1: #95cebb; --x-reunions-v2: #cbb8df; --x-reunions-v3: #dfc497; --x-reunions-v4: #adc7e7; --x-reunions-v5: #d8b6c7; --x-reunions-v6: #bdcdbd; --x-reunions-on-voice: #0f172a; color-scheme: dark; }
+:root { --x-reunions-trace:var(--brand-primary); --x-reunions-activation:var(--ep-turquoise); --x-reunions-record:#b94420; --x-reunions-on-record:#ffffff; --x-reunions-knob:var(--ink); }
+:root[data-theme="dark"] { --x-reunions-record:#f4a07a; --x-reunions-on-record:#111c2c; --x-reunions-knob:var(--paper); }
+:root { --x-reunions-finish:#176c50; --x-reunions-on-finish:#fff; --x-reunions-good:#176c50; --x-reunions-object-shadow:0 10px 28px -22px #162d49; }
+:root[data-theme="dark"] { --x-reunions-finish:#82d8b5; --x-reunions-on-finish:#102b23; --x-reunions-good:#82d8b5; --x-reunions-object-shadow:0 14px 30px -22px #000; }

@@ -1,0 +1,48 @@
+Expect Transcription, version grand public de l'assistant de réunion ExpectPatient
+==================================================================================
+
+Expect Transcription fonctionne entièrement sur l'ordinateur : aucun compte, aucun envoi d'audio ni de texte.
+Il s'appuie sur les composants suivants, libres sauf le runtime Microsoft.
+
+Electron (MIT) — https://www.electronjs.org
+  Fenêtre de l'app et capture de l'écran et du son. Les licences de Chromium et de ses composants
+  sont jointes par Electron (fichier LICENSES.chromium.html à côté de l'app).
+
+whisper.cpp et ggml (MIT) — https://github.com/ggml-org/whisper.cpp
+  Moteur de transcription « whisper-cli » joint à l'app. Texte de la licence ci-dessous.
+
+SDL2 (zlib) — https://www.libsdl.org — Windows seulement, livré avec whisper.cpp.
+
+Runtime Microsoft Visual C++ 14.51 — © Microsoft Corporation — Windows seulement.
+  msvcp140.dll, vcruntime140.dll, vcruntime140_1.dll et vcomp140.dll, extraits sans modification du
+  paquet redistribuable officiel de Microsoft et placés à côté du moteur, dont ils sont nécessaires
+  au fonctionnement. Conditions de Microsoft : https://aka.ms/VCRedistLicense
+
+Modèles téléchargés à la première utilisation, après votre accord, depuis Hugging Face :
+  Whisper small et large-v3-turbo convertis pour whisper.cpp (MIT, OpenAI ; conversion ggml MIT),
+  Silero VAD (MIT), détection de la parole.
+
+----------------------------------------------------------------------
+whisper.cpp / ggml
+----------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2023-2026 The ggml authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

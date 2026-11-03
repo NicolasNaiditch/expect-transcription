@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Paquet signé localement (ad hoc, sans identifiant d'équipe) : le runtime renforcé reste allumé, ce qui
+       bloque DYLD_INSERT_LIBRARIES et le débogage, mais la validation des bibliothèques doit être levée pour
+       que les cadres d'Electron, eux aussi ad hoc, se chargent. Avec un Developer ID, utiliser
+       entitlements.mac.plist, sans cette exception. -->
+  <key>com.apple.security.cs.allow-jit</key><true/>
+  <key>com.apple.security.device.audio-input</key><true/>
+  <key>com.apple.security.cs.disable-library-validation</key><true/>
+</dict>
+</plist>

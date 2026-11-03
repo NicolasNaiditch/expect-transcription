@@ -1,0 +1,108 @@
+{
+  "name": "expect-transcription",
+  "productName": "Expect Transcription",
+  "version": "0.2.1",
+  "description": "Enregistrer le son d'un cours ou d'une réunion, ou déposer un fichier, puis le transcrire sur l'ordinateur. Version grand public de l'assistant de réunion ExpectPatient.",
+  "author": "ExpectPatient",
+  "license": "MIT",
+  "private": true,
+  "main": "main/main.js",
+  "scripts": {
+    "partager": "node scripts/partager.mjs",
+    "verifier": "node scripts/partager.mjs && node --test tests/principal.test.cjs tests/anonymisation.test.mjs",
+    "demarrer": "node scripts/partager.mjs && electron .",
+    "paquet:mac": "node scripts/partager.mjs && electron-builder --mac --arm64",
+    "paquet:windows": "node scripts/partager.mjs && electron-builder --win --x64",
+    "paquet:mac-local": "node scripts/partager.mjs && electron-builder --mac dmg --arm64 -c.mac.identity=- -c.mac.hardenedRuntime=true -c.mac.entitlements=build/entitlements.mac.local.plist -c.mac.entitlementsInherit=build/entitlements.mac.local.plist -c.mac.notarize=false",
+    "paquet:windows-local": "node scripts/partager.mjs && electron-builder --win nsis --x64"
+  },
+  "devDependencies": {
+    "electron": "45.2.1",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "fr.expectpatient.transcription",
+    "productName": "Expect Transcription",
+    "copyright": "ExpectPatient",
+    "files": [
+      "main/**",
+      "renderer/**",
+      "preload.js",
+      "modeles.json",
+      "package.json",
+      "!**/*.map"
+    ],
+    "asar": true,
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ],
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "extraResources": [
+        {
+          "from": "vendor/mac/bin",
+          "to": "bin"
+        }
+      ],
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Expect Transcription enregistre votre micro quand vous l’activez.",
+        "NSAudioCaptureUsageDescription": "Expect Transcription enregistre le son de l’ordinateur (visio, vidéo, cours en ligne) quand vous l’activez.",
+        "NSScreenCaptureUsageDescription": "Expect Transcription enregistre le son de l’ordinateur, et l’écran ou la fenêtre si vous gardez l’image."
+      },
+      "icon": "build/icon.png",
+      "artifactName": "Expect-Transcription-${version}-Mac-Apple-Silicon.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "extraResources": [
+        {
+          "from": "vendor/win/bin",
+          "to": "bin"
+        }
+      ],
+      "icon": "build/icon-windows.png",
+      "artifactName": "Expect-Transcription-${version}-Windows-installation.${ext}",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false,
+      "installerLanguages": [
+        "fr_FR"
+      ],
+      "language": "1036",
+      "shortcutName": "Expect Transcription",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "extraResources": [
+      {
+        "from": "vendor/LICENCES-TIERS.txt",
+        "to": "LICENCES-TIERS.txt"
+      }
+    ],
+    "electronFuses": {
+      "runAsNode": false,
+      "enableCookieEncryption": true,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "loadBrowserProcessSpecificV8Snapshot": false,
+      "grantFileProtocolExtraPrivileges": false,
+      "resetAdHocDarwinSignature": true
+    }
+  }
+}

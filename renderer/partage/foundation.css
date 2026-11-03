@@ -1,0 +1,583 @@
+/* =============================================================================
+   CHARTE WEB EXPECTPATIENT — kit réutilisable
+   Extrait de atlas.expectpatient.com (v17, 19 août 2026).
+   Autonome : aucune dépendance, aucune police distante, aucune image bitmap.
+   Se colle tel quel en tête d'une page de présentation web.
+   ========================================================================== */
+
+:root {
+  /* --- IDENTITÉ ------------------------------------------------------------
+     Relevées sur les SVG officiels. En-tête, pied, liens, boutons, bandeau.
+     JAMAIS pour encoder une donnée (voir « DONNÉES » ci-dessous). */
+  --ep-turquoise: #53cdd4;        /* marqueur externe · « expect » · bandeau  */
+  --ep-turquoise-light: #7cd5de;  /* goutte claire du marqueur                */
+  --ep-blue: #437fb3;             /* « patient » · anneau intermédiaire       */
+  --ep-navy: #0066a8;             /* cœur du marqueur · couleur de titre      */
+
+  /* --- DONNÉES -------------------------------------------------------------
+     Extension hors charte, délibérée. Les deux bleus de marque sont
+     indiscernables en aplat (ΔE 11 < seuil 15) et une palette entièrement
+     froide ne peut pas encoder une polarité. Le pôle chaud n'est donc PAS
+     une couleur de marque, et le navy n'est PAS une couleur de données.
+     Couple validé : ΔE 19,9 protanopie · 30,0 vision normale · contraste ≥ 3:1. */
+  --data-cool: #437fb3;
+  --data-warm: #eb6834;
+  --data-neutral: #e8e6e1;        /* le zéro des rampes divergentes           */
+
+  /* Échelle cartographique — objet à part, voir CHARTE.md § 3.4.
+     Cinq classes froid → chaud dont la luminance décroît strictement : à cinq
+     classes la teinte ne suffit plus à ranger, c'est la clarté qui range. Elle
+     se lit donc en niveaux de gris et sous les trois déficiences de la vision
+     des couleurs. ΔE minimal 17,1 (deutéranopie), ordre partout préservé.
+     Ne pas y prendre une couleur pour autre chose qu'une carte. */
+  --map-class-0: #f3f7f8;         /* le plus favorable                        */
+  --map-class-1: #a4cfe7;
+  --map-class-2: #c3b59a;         /* la classe médiane                        */
+  --map-class-3: #d48455;
+  --map-class-4: #ca4a29;         /* le plus tendu                            */
+  --map-no-data: #b4b2ab;         /* + hachure : une absence n'est pas une valeur */
+
+  /* --- RÔLES --------------------------------------------------------------- */
+  --brand-primary: var(--ep-navy);
+  --brand-accent: var(--ep-blue);
+  --brand-focus: var(--ep-turquoise);
+  --brand-caution: var(--data-warm);
+
+  --paper: #f7f8fc;               /* fond de page                             */
+  --paper-bright: #ffffff;        /* surfaces, panneaux, modales              */
+  --surface-tint: #edf2f8;        /* fond de scène (cartes, graphiques)       */
+  --ink: #0f172a;                 /* texte courant                            */
+  --muted: #58657a;               /* texte secondaire, légendes, sources      */
+  /* Les filets sont TEINTÉS de bleu, jamais gris neutres — c'est ce qui donne
+     au blanc sa température. Le critère est la teinte, pas la clarté : une table
+     d'alias qui rapprocherait --line d'un gris parce qu'il est « proche » se
+     tromperait de critère.
+     Ils dérivaient du navy en littéral (rgba(0,102,168,…)) : changer --ep-navy
+     ne repeignait donc aucun filet, et aucun thème n'était réellement
+     paramétrable. La première ligne reste en repli pour les moteurs sans
+     color-mix ; la seconde prend le dessus partout ailleurs. */
+  --line: rgba(0, 102, 168, 0.14);
+  --line: color-mix(in srgb, var(--ep-navy) 14%, transparent);
+  --line-strong: rgba(0, 102, 168, 0.28);
+  --line-strong: color-mix(in srgb, var(--ep-navy) 28%, transparent);
+
+  /* --- TYPOGRAPHIE ---------------------------------------------------------
+     Dix marches. Aucune taille littérale hors de ces jetons ;
+     les clamp() n'interpolent qu'entre deux marches existantes. */
+  --fs-100: 12px;   /* surtitres, sources, libellés, légendes                 */
+  --fs-200: 14px;   /* interface, notes                                       */
+  --fs-300: 16px;   /* texte courant                                          */
+  --fs-400: 18px;   /* chapeau, texte de lecture                              */
+  --fs-500: 21px;
+  --fs-600: 26px;
+  --fs-700: 34px;
+  --fs-800: 44px;
+  --fs-900: 56px;
+  --fs-1000: 68px;  /* titre d'ouverture                                      */
+
+  /* --- MATIÈRE ------------------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  /* Deux rayons suffisent. Pas d'ombre décorative : la profondeur vient
+     des filets (--line) et des aplats, pas d'un empilement de cartes. */
+  --shadow-panel: 0 18px 40px -18px rgba(15, 23, 42, 0.45);
+  --shadow-dialog: 0 30px 90px rgba(23, 32, 29, 0.28);
+
+  /* --- MOUVEMENT -----------------------------------------------------------
+     Trois durées, deux courbes, une seule distance. Rien d'autre.
+     Le mouvement est rapide et assuré, jamais rebondissant ni joueur :
+     pas de dépassement élastique sur un chiffre qui compte des personnes. */
+  --ease-out: cubic-bezier(.2, .7, .1, 1);   /* signature : entrées, survols  */
+  --ease-io: cubic-bezier(.4, 0, .2, 1);     /* allers-retours réversibles    */
+  --dur-1: 120ms;   /* retour tactile : survol, appui                         */
+  --dur-2: 220ms;   /* changement d'état : onglet, filtre, panneau            */
+  --dur-3: 420ms;   /* entrée de contenu, transition de vue                   */
+  --rise: 16px;     /* la seule distance de fondu-montant                     */
+  --stagger-step: 60ms; /* pas unique de l'échelonnement                      */
+
+  /* --- ESPACE ET GABARIT --------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --gutter: clamp(20px, 4vw, 68px);
+  --header-height: 76px;
+
+  color-scheme: light;
+  font-family: Inter, Avenir, "Helvetica Neue", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* =============================================================================
+   BASE
+   ========================================================================== */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--fs-300);
+  line-height: 1.5;
+}
+
+h1, h2, .display { text-wrap: balance; }
+p, li, blockquote { text-wrap: pretty; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { color: inherit; font: inherit; }
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  left: 12px;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: var(--paper-bright);
+  transform: translateY(calc(-100% - 12px));
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+/* Anneau de focus. Le décalage pose l'anneau sur le fond de page : c'est donc
+   contre ce fond qu'il doit tenir 3:1 (WCAG 1.4.11). Le turquoise n'y arrive
+   pas (1,79:1) — le navy donne 5,71:1. Le liseré clair le sauve sur fond sombre. */
+:where(button, a, [tabindex="0"], input, select, summary):focus-visible {
+  outline: 3px solid var(--brand-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px var(--paper-bright);
+}
+
+/* =============================================================================
+   TYPOGRAPHIE — deux familles, deux fonctions
+   Inter  = interface, repères, chiffres d'interface, tout ce qui se manipule.
+   Georgia = éditorial et données. Tout ce qui se lit ou se retient.
+   Les capitales sont réservées aux repères courts (surtitre, libellé, onglet).
+   Jamais de phrase, de source ni de légende en capitales.
+   ========================================================================== */
+
+.eyebrow,
+.section-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* Surtitre accentué — la variante « porte d'entrée ». */
+.kicker {
+  margin: 0;
+  color: var(--brand-primary);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* Titre d'ouverture. Sans-serif, très serré, interlignage sous 1. */
+.title-display {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(var(--fs-800), 5vw, var(--fs-1000));
+  font-weight: 600;
+  letter-spacing: -0.062em;
+  line-height: 0.92;
+}
+
+/* La respiration du titre : une seconde ligne en serif italique, plus petite.
+   C'est la signature typographique du site — l'affirmation, puis la nuance. */
+.title-display span {
+  display: block;
+  margin-top: 8px;
+  color: var(--brand-primary);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.7em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+/* Titre de section / de chapitre : serif, graisse normale, très serré. */
+.title-section {
+  margin: 8px 0 12px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(var(--fs-600), 3vw, var(--fs-800));
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+/* Texte de lecture. Serif, mesure courte, interlignage large. */
+.prose {
+  max-width: 62ch;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--fs-400);
+  line-height: 1.55;
+}
+
+.lede {
+  max-width: 560px;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-200);
+  line-height: 1.5;
+}
+
+.lede strong { color: var(--ink); }
+
+/* Le chiffre qui porte la démonstration. Serif, énorme, en couleur d'accent. */
+.stat-value {
+  display: block;
+  max-width: 820px;
+  margin: 30px 0 12px;
+  color: var(--brand-primary);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(var(--fs-800), 6vw, var(--fs-1000));
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  max-width: 680px;
+  margin: 0;
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+/* Périmètre / champ d'un chiffre : le filet vertical d'accent. */
+.scope-note {
+  margin: 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--brand-primary);
+  color: var(--muted);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+/* Source. Toujours visible, jamais en capitales, jamais en note de bas de page. */
+.source-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-100);
+  line-height: 1.45;
+}
+
+/* =============================================================================
+   COMMANDES
+   Aucune n'est une « pilule flottante » : le site tient par des filets et des
+   aplats francs. Une seule action pleine par écran.
+   ========================================================================== */
+
+.action-primary,
+.action-secondary {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.action-primary {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-primary);
+  color: var(--paper-bright);
+  transition: background var(--dur-2) var(--ease-io), transform var(--dur-2) var(--ease-out);
+}
+
+.action-primary:hover {
+  background: color-mix(in oklab, var(--brand-primary) 34%, var(--brand-accent));
+  transform: translateY(-2px);
+}
+
+.action-secondary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--ink);
+  transition: color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+
+.action-secondary:hover { color: var(--brand-primary); }
+
+/* Onglet / lien de navigation : le soulignement qui se déroule. */
+.tab {
+  position: relative;
+  padding: 10px 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: var(--fs-100);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 4px;
+  height: 1px;
+  background: var(--brand-primary);
+  transition: right var(--dur-2) var(--ease-io);
+}
+
+.tab:hover, .tab.is-active { color: var(--ink); }
+.tab.is-active::after { right: 0; }
+
+/* =============================================================================
+   SURFACES
+   ========================================================================== */
+
+.panel {
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper-bright);
+}
+
+.stage {
+  border-radius: var(--radius-md);
+  background: var(--surface-tint);
+}
+
+/* Bandeau de statut — le modèle du site : discret, permanent, cliquable. */
+.status-band {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px var(--gutter);
+  border-bottom: 1px solid rgba(0, 102, 168, 0.16);
+  background: #edf8fa;
+  color: var(--ep-navy);
+  font-size: var(--fs-100);
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+}
+
+.status-band strong { font-weight: 800; }
+.status-band strong::after { content: "·"; margin-left: 8px; color: var(--ep-turquoise); }
+
+/* Le filet tricolore : la seule ornementation autorisée de l'en-tête. */
+.brand-rule {
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent), var(--brand-focus));
+}
+
+/* =============================================================================
+   TABLEAU — chiffres en serif, tabulaires, alignés à droite ;
+   en-têtes en capitales courtes, collants au défilement.
+   ========================================================================== */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  padding: 16px;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--muted);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.data-table th:first-child { padding-left: 24px; text-align: left; }
+
+.data-table td {
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--line);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--fs-300);
+  text-align: right;
+}
+
+.data-table td:first-child {
+  padding-left: 24px;
+  font-family: inherit;
+  font-size: var(--fs-200);
+  text-align: left;
+}
+
+.data-table tbody tr { transition: background-color var(--dur-2) var(--ease-io); }
+.data-table tbody tr:hover { background: var(--surface-tint); }
+
+/* =============================================================================
+   MOUVEMENT
+   ========================================================================== */
+
+/* Révélation au défilement, sans JS et réversible : le mouvement suit la
+   molette dans les deux sens. L'IntersectionObserver n'est qu'un repli. */
+.reveal { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal.is-reveal-ready {
+    opacity: 0;
+    transform: translateY(var(--rise));
+    transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+  }
+
+  .reveal.is-reveal-ready.is-visible { opacity: 1; transform: translateY(0); }
+
+  @supports (animation-timeline: view()) {
+    .reveal.is-reveal-ready {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      /* L'animation se termine pendant l'entrée : rien n'est encore estompé
+         quand le lecteur a quelque chose à lire. */
+      animation-range: entry 8% entry 80%;
+    }
+    /* Un module fait de commandes ne s'estompe jamais — à opacité partielle
+       il a l'air désactivé. Il ne reçoit que le mouvement. */
+    .reveal.is-reveal-ready.is-interactive { animation-name: reveal-in-motion; }
+  }
+}
+
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(var(--rise)); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes reveal-in-motion {
+  from { transform: translateY(var(--rise)); }
+  to   { transform: translateY(0); }
+}
+
+/* Entrée de panneau latéral — le contenu vient du côté où il apparaît. */
+@keyframes copy-in  { from { opacity: 0; transform: translate3d(calc(-1 * var(--rise)), var(--rise), 0); } to { opacity: 1; transform: none; } }
+@keyframes panel-in { from { opacity: 0; transform: translate3d(var(--rise), var(--rise), 0); }  to { opacity: 1; transform: none; } }
+
+/* Arrivée d'écran — l'ouverture, échelonnée élément par élément. */
+@keyframes arrive { from { opacity: 0; transform: translateY(var(--rise)); } to { opacity: 1; transform: none; } }
+
+/* Micro-entrées. */
+@keyframes readout-in { from { opacity: 0; transform: translateY(calc(var(--rise) / 4)); }  to { opacity: 1; transform: none; } }
+@keyframes value-pop  { from { opacity: .55; transform: translateY(calc(var(--rise) / 4)); } to { opacity: 1; transform: none; } }
+@keyframes slot-in    { from { opacity: 0; transform: translateX(var(--rise)); } to { opacity: 1; transform: none; } }
+
+/* Données qui se construisent : la barre pousse depuis son origine,
+   la courbe se dessine, jamais l'inverse. */
+@keyframes bar-grow  { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes col-rise  { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes draw-line { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
+@keyframes spin      { to { transform: rotate(360deg); } }
+
+/* Ouverture d'écran échelonnée. */
+.stagger > * { animation: arrive var(--dur-3) var(--ease-out) both; }
+.stagger > :nth-child(2) { animation-delay: var(--stagger-step); }
+.stagger > :nth-child(3) { animation-delay: calc(2 * var(--stagger-step)); }
+.stagger > :nth-child(4) { animation-delay: calc(3 * var(--stagger-step)); }
+.stagger > :nth-child(5) { animation-delay: calc(4 * var(--stagger-step)); }
+
+/* Le survol qui isole : tout ce qui n'est pas visé recule, en CSS pur. */
+.isolate-group:has(.isolate-item:hover, .isolate-item:focus-visible)
+  .isolate-item:not(:hover):not(:focus-visible) {
+  opacity: 0.46;
+  filter: saturate(0.72);
+}
+
+.isolate-item { transition: opacity var(--dur-1) var(--ease-out), filter var(--dur-1) var(--ease-out); }
+
+/* Le contrat non négociable : tout mouvement se coupe sur demande. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    animation-timeline: none !important;
+    transition: none !important;
+  }
+  .reveal, .reveal.is-reveal-ready { opacity: 1 !important; transform: none !important; }
+}
+
+/* =============================================================================
+   GABARIT — la mise en page canonique : le texte à gauche, la preuve à droite.
+   Jamais une grille de cartes : une colonne de lecture et une scène.
+   ========================================================================== */
+
+.split {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(340px, 0.88fr) minmax(480px, 1.12fr);
+  overflow: hidden;
+}
+
+.split > .split-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: clamp(46px, 8vh, 100px) var(--gutter) 54px;
+}
+
+.split > .split-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: var(--surface-tint);
+  border-left: 1px solid var(--line);
+}
+
+@media (max-width: 980px) {
+  .split { min-height: 0; grid-template-columns: 1fr; }
+  .split > .split-stage { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* =============================================================================
+   IMPRESSION — une présentation doit s'imprimer. Le mouvement disparaît,
+   les commandes disparaissent, le contenu reste.
+   ========================================================================== */
+
+@media print {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .tab, .action-primary, .action-secondary, .no-print { display: none !important; }
+  body { background: #fff; }
+  .split { min-height: 0; grid-template-columns: 1fr; }
+}

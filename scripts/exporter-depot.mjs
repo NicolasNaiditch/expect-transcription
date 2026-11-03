@@ -41,7 +41,7 @@ fs.writeFileSync(path.join(target, 'package.json'), JSON.stringify(pkg, null, 2)
 const files = [];
 const walk = folder => fs.readdirSync(folder, { withFileTypes: true }).forEach(entry => {
   const full = path.join(folder, entry.name);
-  if (entry.isDirectory()) walk(full); else files.push(full);
+  if (entry.isDirectory()) { if (entry.name !== '.git') walk(full); } else files.push(full);
 });
 walk(target);
 const problems = [];
